@@ -16,9 +16,6 @@ CNN = tf.keras.Sequential([
     tf.keras.layers.Dense(10,activation='softmax')
 ])
 
-
-
-
 CNN.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=1e-3,momentum=0.9),loss='sparse_categorical_crossentropy',metrics=['accuracy'])
 
 history = CNN.fit(x=train_imgs,y=train_labels,epochs=5,validation_data=(test_imgs,test_labels))
