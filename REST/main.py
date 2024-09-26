@@ -52,7 +52,6 @@ async def pred(request: Request):
             
             img_array = cv2.cvtColor(img_array,cv2.COLOR_RGBA2GRAY)
             img_array = 255-cv2.resize(img_array,(28,28))
-            cv2.imwrite('out.png',img_array)
 
             img_array = np.expand_dims(img_array.reshape(28,28,1),axis=0)
             predictions = CNN.predict(img_array).tolist()[0]
