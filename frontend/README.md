@@ -1,6 +1,6 @@
 # React + Vite
 
-The site is hosted using netlify to access the site [https://mnistpred.netlify.app]{click here}
+The site is hosted using netlify to access the site [https://mnistpred.netlify.app][click here]
 
 The site works when the owner starts hosting the server
 
