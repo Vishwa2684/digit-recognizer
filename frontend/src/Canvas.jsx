@@ -113,7 +113,7 @@ const Canvas = ({setResults}) => {
 
       {/* Send image button */}
       <div style={{ marginTop: '10px' }}>
-        <button onClick={sendImageToBackend}>Send Image to Backend</button>
+        <button onClick={sendImageToBackend}>Predict</button>
       </div>
     </div>
   );
