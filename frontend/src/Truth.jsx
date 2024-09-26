@@ -3,7 +3,7 @@ import { LinearProgress, Stack, Typography, Box, Grid } from '@mui/material';
 
 export default function Truth({ predictions }) {
   return (
-    <Box color="#fff" sx={{ backgroundColor: '#fff', padding: 2, borderRadius: 2 }}>
+    <Box color="#fff" sx={{ width:'400px',backgroundColor: '#fff', padding: 2, borderRadius: 2 }}>
       <Typography variant="h6" color='#333'>Prediction Progress</Typography>
       <Grid container direction="column" spacing={2}>
         {/* Map through the predictions array and create a progress bar for each prediction */}
