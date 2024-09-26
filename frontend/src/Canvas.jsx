@@ -1,16 +1,25 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-const Canvas = ({setResults}) => {
+const Canvas = ({ setResults }) => {
   const canvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isErasing, setIsErasing] = useState(false);  // Track if eraser is active
   const [lineWidth, setLineWidth] = useState(2);      // Track brush thickness
 
+  // Get the mouse/touch position relative to the canvas
+  const getPosition = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    const x = e.clientX || (e.touches && e.touches[0].clientX) || 0; // Get x-coordinate for touch events
+    const y = e.clientY || (e.touches && e.touches[0].clientY) || 0; // Get y-coordinate for touch events
+    return { x: x - rect.left, y: y - rect.top }; // Adjust for canvas position
+  };
+
   // Start drawing or erasing
   const startDrawing = (e) => {
+    const { x, y } = getPosition(e);
     const ctx = canvasRef.current.getContext('2d');
     ctx.beginPath();
-    ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+    ctx.moveTo(x, y);
     setIsDrawing(true);
   };
 
@@ -18,8 +27,9 @@ const Canvas = ({setResults}) => {
   const draw = (e) => {
     if (!isDrawing) return;
     
+    const { x, y } = getPosition(e);
     const ctx = canvasRef.current.getContext('2d');
-    ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+    ctx.lineTo(x, y);
 
     if (isErasing) {
       ctx.strokeStyle = 'white'; // Erase with white color
@@ -33,11 +43,6 @@ const Canvas = ({setResults}) => {
 
   // Stop drawing
   const stopDrawing = () => {
-    setIsDrawing(false);
-  };
-
-  // Clear the canvas or save drawing when mouse is up
-  const finishDrawing = () => {
     setIsDrawing(false);
   };
 
@@ -72,12 +77,12 @@ const Canvas = ({setResults}) => {
       });
       const data = await response.json();
       console.log('Image sent to backend successfully', data);
-      setResults(data)
-
+      setResults(data);
     } catch (error) {
       console.error('Error sending image to backend:', error);
     }
-};
+  };
+
   return (
     <div>
       <canvas
@@ -88,7 +93,10 @@ const Canvas = ({setResults}) => {
         onMouseDown={startDrawing}
         onMouseMove={draw}
         onMouseUp={stopDrawing}
-        onMouseLeave={finishDrawing}
+        onMouseLeave={stopDrawing}
+        onTouchStart={startDrawing}   // Add touch support
+        onTouchMove={draw}            // Add touch support
+        onTouchEnd={stopDrawing}      // Add touch support
       />
 
       <div style={{ marginTop: '10px' }}>
