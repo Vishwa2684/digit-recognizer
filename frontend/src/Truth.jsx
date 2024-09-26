@@ -1,7 +1,8 @@
 import React from 'react';
-import { LinearProgress, Stack, Typography, Box, Grid } from '@mui/material';
+import { Box, Typography, Grid, Stack, LinearProgress } from '@mui/material';
 
-export default function Truth({ predictions }) {
+const PredictionProgress = ({ predictions }) => {
+  // 
   return (
     <Box color="#fff" sx={{ width:'400px',backgroundColor: '#fff', padding: 2, borderRadius: 2 }}>
       <Typography variant="h6" color='#333'>Prediction Progress</Typography>
@@ -12,7 +13,9 @@ export default function Truth({ predictions }) {
           return (
             <Grid item key={index}>
               <Stack direction="row" alignItems="center" spacing={2}>
-                <Box sx={{ width: '100%', height: '30px' }}> {/* Set width to 100% */}
+                <Typography variant="body2" color="textSecondary" sx={{ minWidth: '20px' }}>{index}</Typography>
+                <Box sx={{ width: '100%', height: '30px' }}>
+                  {/* Set width to 100% */}
                   <LinearProgress variant="determinate" value={value} sx={{ height: '30px', borderRadius: 5 }} /> {/* Height and border-radius remain the same */}
                 </Box>
                 <Typography variant="body2" color="textSecondary" sx={{ minWidth: '50px' }}>{`${value.toFixed(2)}%`}</Typography>
@@ -22,5 +25,8 @@ export default function Truth({ predictions }) {
         })}
       </Grid>
     </Box>
-  );
-}
+);
+
+};
+
+export default PredictionProgress;
