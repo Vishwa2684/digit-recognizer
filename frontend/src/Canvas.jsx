@@ -16,7 +16,6 @@ const Canvas = ({ setResults }) => {
 
   // Start drawing or erasing
   const startDrawing = (e) => {
-    e.preventDefault();
     const { x, y } = getPosition(e);
     const ctx = canvasRef.current.getContext('2d');
     ctx.beginPath();
@@ -27,7 +26,7 @@ const Canvas = ({ setResults }) => {
   // Draw or erase based on the mode
   const draw = (e) => {
     if (!isDrawing) return;
-    e.preventDefault()
+
     const { x, y } = getPosition(e);
     const ctx = canvasRef.current.getContext('2d');
     ctx.lineTo(x, y);
@@ -44,7 +43,7 @@ const Canvas = ({ setResults }) => {
 
   // Stop drawing
   const stopDrawing = () => {
-    e.preventDefault()
+
     setIsDrawing(false);
   };
 
