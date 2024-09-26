@@ -1,0 +1,7 @@
+fastapi[all]
+tensorflow
+numpy
+opencv-python
+Pillow
+uvicorn
+pydantic
