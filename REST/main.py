@@ -17,6 +17,7 @@ origins = [
     "https://localhost.tiangolo.com",
     "http://localhost",
     "http://localhost:5173",
+    "https://main--mnistpred.netlify.app"
 ]
 
 app.add_middleware(
