@@ -1,17 +1,26 @@
 import React, { useRef, useState, useEffect } from 'react';
+import SnackbarContent from '@mui/material/SnackbarContent';
+import Snackbar from '@mui/material/Snackbar';
+import { CircularProgress } from '@mui/material';
 
 const Canvas = ({ setResults }) => {
+  const [open, setOpen] = useState(false); // State to control Snackbar visibility
+  const [errorMessage, setErrorMessage] = useState(''); // State to hold error message
   const canvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isErasing, setIsErasing] = useState(false);  // Track if eraser is active
   const [lineWidth, setLineWidth] = useState(2);      // Track brush thickness
-
+  const [loading,setLoading] = useState(false);
   // Get the mouse/touch position relative to the canvas
   const getPosition = (e) => {
     const rect = canvasRef.current.getBoundingClientRect();
     const x = e.clientX || (e.touches && e.touches[0].clientX) || 0; // Get x-coordinate for touch events
     const y = e.clientY || (e.touches && e.touches[0].clientY) || 0; // Get y-coordinate for touch events
     return { x: x - rect.left, y: y - rect.top }; // Adjust for canvas position
+  };
+
+  const handleClose = () => {
+    setOpen(false);  // Close snackbar
   };
 
   // Start drawing or erasing
@@ -43,7 +52,6 @@ const Canvas = ({ setResults }) => {
 
   // Stop drawing
   const stopDrawing = () => {
-
     setIsDrawing(false);
   };
 
@@ -66,6 +74,7 @@ const Canvas = ({ setResults }) => {
   };
 
   const sendImageToBackend = async () => {
+    setLoading(true);
     const canvas = canvasRef.current;
     const image = canvas.toDataURL('image/png');  // Get the canvas as a base64 encoded image
     try {
@@ -76,11 +85,17 @@ const Canvas = ({ setResults }) => {
         },
         body: JSON.stringify({ image }),  // sending base64 image in JSON body
       });
+
       const data = await response.json();
+      setLoading(false);
       console.log('Image sent to backend successfully', data);
       setResults(data);
+
     } catch (error) {
+      setLoading(false);
       console.error('Error sending image to backend:', error);
+      setErrorMessage('500 Internal Server Error');
+      setOpen(true); // Open the Snackbar on error
     }
   };
 
@@ -122,8 +137,23 @@ const Canvas = ({ setResults }) => {
 
       {/* Send image button */}
       <div style={{ marginTop: '10px' }}>
-        <button onClick={sendImageToBackend}>Predict</button>
+        {!loading?<button onClick={sendImageToBackend}>Predict</button>:<CircularProgress size="3rem" color="#fff"/>}
       </div>
+
+      {/* Snackbar for error notifications */}
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={open}
+        sx={{
+          backgroundColor: 'red',    
+          color: 'white',            
+          fontWeight: 'bold',
+        }}
+        onClose={handleClose}
+        autoHideDuration={4000}  // Snackbar will auto-close after 4 seconds
+      >
+        <SnackbarContent message={errorMessage} />
+      </Snackbar>
     </div>
   );
 };
