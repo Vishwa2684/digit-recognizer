@@ -78,7 +78,7 @@ const Canvas = ({ setResults }) => {
     const canvas = canvasRef.current;
     const image = canvas.toDataURL('image/png');  // Get the canvas as a base64 encoded image
     try {
-      const response = await fetch('http://127.0.0.1:8000/predict', {
+      const response = await fetch('https://rest-for-digit-recognizer.onrender.com/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
