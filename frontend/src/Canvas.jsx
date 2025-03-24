@@ -2,6 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import Snackbar from '@mui/material/Snackbar';
 import { CircularProgress } from '@mui/material';
+import BrushOutlinedIcon from '@mui/icons-material/BrushOutlined';
+import {IconButton,Tooltip} from '@mui/material';
+
 
 const Canvas = ({ setResults }) => {
   const [open, setOpen] = useState(false); // State to control Snackbar visibility
@@ -117,9 +120,33 @@ const Canvas = ({ setResults }) => {
 
       <div style={{ marginTop: '10px' }}>
         {/* Toggle between draw and erase */}
-        <button onClick={toggleEraser}>
-          {isErasing ? 'Switch to Draw' : 'Switch to Erase'}
-        </button>
+        <Tooltip title={isErasing?'Draw':'Erase'} placement="top"
+        arrow
+        componentsProps={{
+          tooltip: {
+            sx: {
+              backgroundColor: 'black',  // Tooltip background
+              color: 'white',            // Tooltip text color
+              fontSize: '1rem',          // Increase font size
+              padding: '8px 12px',       // Adjust padding for better appearance
+              borderRadius: '6px',       // Optional: rounded corners
+            },
+            arrow: {
+              sx: {
+                color: 'black'  // Arrow color matching the tooltip background
+              }
+            }
+          }
+        }}>
+          <IconButton onClick={toggleEraser} 
+            sx={{ transition: 'color 0.3s ease-in-out',
+              backgroundColor: isErasing?'white':'black',
+              color: isErasing?'black':'white',
+            }}>
+            <BrushOutlinedIcon sx ={{fontSize: 30,color:isErasing?'black':'white'}}/>
+          </IconButton>
+        </Tooltip>
+        
 
         {/* Control brush thickness */}
         <label style={{ marginLeft: '10px' }}>
