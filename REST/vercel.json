@@ -4,6 +4,12 @@
         "src": "REST/Dockerfile",
         "use": "@vercel/docker"
       }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "REST"
+      }
     ]
   }
   
