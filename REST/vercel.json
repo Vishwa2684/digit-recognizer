@@ -1,8 +1,8 @@
 {
     "builds": [
       {
-        "src": ["REST/Dockerfile","REST/main.py"],
-        "use": ["@vercel/docker","@vercel/python"]
+        "src": "REST/main.py",
+        "use": "@vercel/python"
       }
     ],
     "routes": [
