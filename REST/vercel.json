@@ -1,14 +1,14 @@
 {
     "builds": [
       {
-        "src": "REST/Dockerfile",
-        "use": "@vercel/docker"
+        "src": ["REST/Dockerfile","REST/main.py"],
+        "use": ["@vercel/docker","@vercel/python"]
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "REST"
+        "dest": "REST/main.py"
       }
     ]
   }
