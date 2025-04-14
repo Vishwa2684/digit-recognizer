@@ -1,0 +1,9 @@
+{
+    "builds": [
+      {
+        "src": "REST/Dockerfile",
+        "use": "@vercel/docker"
+      }
+    ]
+  }
+  
